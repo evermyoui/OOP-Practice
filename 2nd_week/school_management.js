@@ -28,10 +28,9 @@ class Student extends Person {
     }
 }
 class Teacher extends Person{
-    constructor(name, age, gender, subject, salary, school){
+    constructor(name, age, gender, subject){
         super(name,age,gender);
         this.subject = subject;
-        this.salary = salary;
         this.studentsAttendance = [];
     }
     introduce(){
@@ -67,7 +66,7 @@ class School {
         this.teachers.push(teacher);
     }
     showAll(){
-        this.persons.forEach(person =>{
+        [...this.teachers, ...this.students].forEach(person =>{
             console.log(person.name);
         });
     }
@@ -81,14 +80,21 @@ class School {
             sorted.forEach(student => {
                 console.log(`${counter++} | ${student.studentName} `);
             });
-        });
+        })
 
+    }
+    showGrades(studentID){
+        const student = this.students.find(student => student.studentID === studentID);
+        if (!student) return false;
+        student.record.forEach(grade => {
+            console.log(`${grade.subject}: ${grade.grade}`);
+        });
     }
 }   
 const school = new School();
 const student = new Student("Juan", 18, "Male", 1000);
 const student1 = new Student("Xiexie", 28, "Female", 1200);
-const teacher = new Teacher("Theodore", 39, "Male", "Math", 30000);
+const teacher = new Teacher("Theodore", 39, "Male", "Math");
 
 school.addStudent(student);
 school.addStudent(student1);
@@ -96,6 +102,6 @@ school.addTeacher(teacher);
 teacher.assignGrades(student, 85, teacher.subject);
 teacher.assignGrades(student, 80, "Science");
 teacher.assignGrades(student, 92, "History");
-teacher.makeAttendance(teacher.subject, student, "2025-09-16");
+teacher.makeAttendance(teacher.subject, student, "2025-09-15");
 teacher.makeAttendance("Science", student1, "2025-09-15");
-school.showAllAttendance();
+school.showGrades(student.studentID);
