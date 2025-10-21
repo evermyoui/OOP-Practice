@@ -6,6 +6,31 @@ class Person {
         return (`Hello my name is ${this.name}`);
     }
 }
+class Customer {
+    constructor(){
+        this.orders = [];
+    }
+    placeOrders(menu, menuItem, quantity){
+        const existed = menu.menu.find(item => item.title === menuItem);
+        if (!existed){
+            console.log(`No such ${menuItem} menu item`);
+        }
+        this.orders.push({menuItem: existed.title, 
+            quantity,
+            price: existed.price
+        });
+    }
+    showOrders(){
+        this.orders.forEach(item => {
+            console.log(`${item.quantity}x ${item.menuItem} | P${item.price}`);
+        });
+    }
+    whatIsItMadeOf(menu){
+        menu.menu.map(item =>{
+            return ////////// pause here 10-21-25
+        });
+    }
+}
 class Waiter extends Person {
     constructor(name, schedule, time, employmentType, id){
         super(name);
@@ -43,7 +68,7 @@ class Menu {
     }
     getInfo(){
         this.menu.forEach(item => {
-            console.log(`${item.title}\nDescription: ${item.description}`);
+            console.log(`Item: ${item.title}\nDescription: ${item.description} \nPrice: ${item.price}`);
         })
     }
 }
@@ -81,7 +106,7 @@ class Restaurant {
     addEmployee(employee){
         const id = `EMP-${String(Restaurant.idCounter).padStart(4, '0')}`;
         Restaurant.idCounter++;
-        this.employees.push({id, employee});
+        this.employees.push(employee);
         employee.id = id;
     }
     restaurantSignature(){
@@ -90,8 +115,12 @@ class Restaurant {
     getHotItem(){
 
     }
-    addMenu(){
-
+    addMenu(title, description, price){
+        this.menu.push({
+            title,
+            description,
+            price
+        });
     }
     showMenu(){
 
@@ -106,6 +135,7 @@ class Restaurant {
             return;
         }
         existed.schedule = newSchedule;
+
     }
     changeTime(id, newTime){
         const existed = this.employees.find(employee => employee.id === id);
@@ -118,7 +148,13 @@ class Restaurant {
 }
 
 const mcdo = new Restaurant();
+const customer = new Customer();
 const waiter = new Waiter("John",mcdo.availSched["1"] , mcdo.availTime["noonShift"], mcdo.employmentType[0]);
 mcdo.addEmployee(waiter);
-mcdo.changeSchedule(waiter, mcdo.availSched["2"]);
-console.log(waiter);
+mcdo.changeSchedule(waiter.id, mcdo.availSched["2"]);
+mcdo.addMenu("Adobo", "haha", 1000);
+mcdo.addMenu("Sinigang", "haha", 2000);
+const menu = new Menu(mcdo);
+customer.placeOrders(menu, "Adobo", 1);
+customer.placeOrders(menu, "Sinigang", 2);
+console.log(menu.menu);
