@@ -3,32 +3,45 @@ class Person {
         this.name = name;
     }
     introduce(){
-        return (`Hello my name is ${this.name}`);
+        return `Hello my name is ${this.name}`;
     }
 }
-class Customer {
-    constructor(){
-        this.orders = [];
+class Customer extends Person{
+    constructor(name, restaurant){
+        super(name);
+        this.order = new Order();
+        this.orders = restaurant.orders;
+    }
+    introduce(){
+        return `${super.introduce()}. I am a customer`;
     }
     placeOrders(menu, menuItem, quantity){
-        const existed = menu.menu.find(item => item.title === menuItem);
+        const existed = menu.menu.find(item => item.title === menuItem.toLowerCase());
         if (!existed){
             console.log(`No such ${menuItem} menu item`);
         }
-        this.orders.push({menuItem: existed.title, 
+        this.orders.push(
+            [{name: this.name},{
+            menuItem: existed.title, 
             quantity,
             price: existed.price
-        });
+        }]);
+        this.order.orders.push({
+            menuItem: existed.title, 
+            quantity,
+            price: existed.price
+        })
     }
     showOrders(){
-        this.orders.forEach(item => {
+        this.order.orders.forEach(item => {
             console.log(`${item.quantity}x ${item.menuItem} | P${item.price}`);
         });
     }
-    whatIsItMadeOf(menu){
-        menu.menu.map(item =>{
-            return ////////// pause here 10-21-25
-        });
+    whatIsItMadeOf(menu, menuItem){
+        const existed = menu.menu.find(item => item.title === menuItem.toLowerCase());
+        if (!existed) return false;
+
+        console.log(`${existed.title}: ${existed.description}`);
     }
 }
 class Waiter extends Person {
@@ -50,8 +63,9 @@ class Chef extends Person {
     introduce(){
         return `${super.introduce()}. I am a chef.`
     }
-    contactDelivery(delivery,item,quantity){
-        delivery.deliver(item, quantity);
+    askDeliver(delivery,item,quantity, restaurant){
+        const deliveredItem = delivery.deliver(item, quantity);
+        restaurant.stock.find(item => item.name);
     }
 }
 class Delivery {
@@ -59,7 +73,7 @@ class Delivery {
 
     }
     deliver(item, quantity){
-
+        
     }
 }
 class Menu {
@@ -73,13 +87,13 @@ class Menu {
     }
 }
 class Order {
-    constructor(customer, waiter, quantity){
-        this.customer = customer;
-        this.waiter = waiter;
-        this.quantity = quantity;
+    constructor(){
+        this.orders = [];
     }
     totalCost(){
-
+        return customer.orders.reduce((acc,curr)=>{
+            return acc + curr.price;
+        }, 0);
     }
 }
 class Restaurant {
@@ -87,6 +101,7 @@ class Restaurant {
     constructor(){
         this.menu = [];
         this.orders = [];
+        this.stock = [];
         this.employmentType = ["Part-Time", "Full-Time"];
         this.employees = [];
         this.availTime = {
@@ -110,14 +125,22 @@ class Restaurant {
         employee.id = id;
     }
     restaurantSignature(){
-
+        let signature = 0;
+        let topItem = null;
+        this.orders.forEach(item =>{
+            if (item.quantity > signature){
+                signature = item.quantity;
+                topItem = item.menuItem;
+            }
+        });
+        return topItem === null ? "No Order Yet." : topItem;
     }
     getHotItem(){
 
     }
     addMenu(title, description, price){
         this.menu.push({
-            title,
+            title: title.toLowerCase(),
             description,
             price
         });
@@ -148,13 +171,14 @@ class Restaurant {
 }
 
 const mcdo = new Restaurant();
-const customer = new Customer();
+const customer = new Customer('juan', mcdo);
+const chef = new Chef("Juan");
+const delivery = new Delivery();
 const waiter = new Waiter("John",mcdo.availSched["1"] , mcdo.availTime["noonShift"], mcdo.employmentType[0]);
 mcdo.addEmployee(waiter);
-mcdo.changeSchedule(waiter.id, mcdo.availSched["2"]);
-mcdo.addMenu("Adobo", "haha", 1000);
-mcdo.addMenu("Sinigang", "haha", 2000);
+const adobo = "Adobo";
+mcdo.addMenu(adobo, "haha", 1000);
 const menu = new Menu(mcdo);
-customer.placeOrders(menu, "Adobo", 1);
-customer.placeOrders(menu, "Sinigang", 2);
-console.log(menu.menu);
+customer.placeOrders(menu, adobo, 1);
+chef.askDeliver(delivery, "Chicken", 20, mcdo);
+console.log(mcdo.restaurantSignature());
