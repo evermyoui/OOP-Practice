@@ -9,7 +9,7 @@ class Person {
 class Customer extends Person{
     constructor(name, restaurant){
         super(name);
-        this.order = new Order();
+        this.order = new Order(this.name);
         this.orders = restaurant.orders;
     }
     introduce(){
@@ -19,18 +19,15 @@ class Customer extends Person{
         const existed = menu.menu.find(item => item.title === menuItem.toLowerCase());
         if (!existed){
             console.log(`No such ${menuItem} menu item`);
+            return;
         }
-        this.orders.push(
-            [{name: this.name},{
-            menuItem: existed.title, 
+        this.order.addItem(existed.title, quantity, existed.price);
+        this.orders.push({
+            name: this.name,
+            menuItem: existed.title,
             quantity,
             price: existed.price
-        }]);
-        this.order.orders.push({
-            menuItem: existed.title, 
-            quantity,
-            price: existed.price
-        })
+        });
     }
     showOrders(){
         this.order.orders.forEach(item => {
@@ -65,15 +62,14 @@ class Chef extends Person {
     }
     askDeliver(delivery,item,quantity, restaurant){
         const deliveredItem = delivery.deliver(item, quantity);
-        restaurant.stock.find(item => item.name);
+        const stockItem = restaurant.stock.find(s => s.name === item);
+        if (stockItem) stockItem.quantity += quantity;
+        else restaurant.stock.push({name: item, quantity});
     }
 }
 class Delivery {
-    constructor(){
-
-    }
     deliver(item, quantity){
-        
+        return {item, quantity};
     }
 }
 class Menu {
@@ -87,12 +83,18 @@ class Menu {
     }
 }
 class Order {
-    constructor(){
+    constructor(name){
+        this.name = name;
         this.orders = [];
     }
+    addItem(menuItem, quantity, price){
+        this.orders.push({
+            menuItem, quantity, price
+        });
+    }
     totalCost(){
-        return customer.orders.reduce((acc,curr)=>{
-            return acc + curr.price;
+        return this.orders.reduce((acc,curr)=>{
+            return acc + curr.price * curr.quantity;
         }, 0);
     }
 }
@@ -124,7 +126,7 @@ class Restaurant {
         this.employees.push(employee);
         employee.id = id;
     }
-    restaurantSignature(){
+    restaurantSignature(){ /// next 10 - 23 - 25
         let signature = 0;
         let topItem = null;
         this.orders.forEach(item =>{
@@ -135,9 +137,6 @@ class Restaurant {
         });
         return topItem === null ? "No Order Yet." : topItem;
     }
-    getHotItem(){
-
-    }
     addMenu(title, description, price){
         this.menu.push({
             title: title.toLowerCase(),
@@ -146,10 +145,14 @@ class Restaurant {
         });
     }
     showMenu(){
-
+        this.menu.forEach(item =>{
+            console.log(`${item.title} | P${item.price}`);
+        });
     }
     showAllOrders(){
-
+        this.orders.forEach(item =>{
+            console.log(`${item.name} | ${item.quantity}x ${item.menuItem} | P${item.price}`);
+        });
     }
     changeSchedule(id, newSchedule){
         const existed = this.employees.find(employee => employee.id === id);
