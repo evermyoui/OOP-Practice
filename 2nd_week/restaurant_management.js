@@ -15,7 +15,13 @@ class Customer extends Person{
     introduce(){
         return `${super.introduce()}. I am a customer`;
     }
-    placeOrders(menu, menuItem, quantity){
+    placeOrders(menu, menuItem, quantity, restaurant){
+        const stockItem = restaurant.stock.find(s => s.name === existed.title);
+        if (!stockItem || stockItem.quantity < quantity) {
+            console.log("Not enough stock available!");
+            return;
+        }
+        stockItem.quantity -= quantity;
         const existed = menu.menu.find(item => item.title === menuItem.toLowerCase());
         if (!existed){
             console.log(`No such ${menuItem} menu item`);
@@ -126,17 +132,6 @@ class Restaurant {
         this.employees.push(employee);
         employee.id = id;
     }
-    restaurantSignature(){ /// next 10 - 23 - 25
-        let signature = 0;
-        let topItem = null;
-        this.orders.forEach(item =>{
-            if (item.quantity > signature){
-                signature = item.quantity;
-                topItem = item.menuItem;
-            }
-        });
-        return topItem === null ? "No Order Yet." : topItem;
-    }
     addMenu(title, description, price){
         this.menu.push({
             title: title.toLowerCase(),
@@ -184,4 +179,3 @@ mcdo.addMenu(adobo, "haha", 1000);
 const menu = new Menu(mcdo);
 customer.placeOrders(menu, adobo, 1);
 chef.askDeliver(delivery, "Chicken", 20, mcdo);
-console.log(mcdo.restaurantSignature());
