@@ -1,26 +1,26 @@
-//importing documents
+//selecting dom elements
 const container = document.querySelector(".container");
 const counter = document.querySelector(".counter");
 const prev = document.querySelector(".prev");
 const next = document.querySelector(".next");
 
 // variables
-let posts = [];
-const startIndex = 0;
-const pageSize = 5;
+let posts = []; //store fetch posts
+let startIndex = 0; 
+const pageSize = 5; // page size in each webpage
 
 //fetch function
 async function fetchPosts(){
     try {
         const response = await fetch(`https://jsonplaceholder.typicode.com/posts`);
-        //error catching
+        //check for errors
         if (!response.ok){
             throw new Error("Can't Access");
         }
-        //fetching data
+        //storing fetched data
         const data = await response.json();
         posts = data;
-        //display 5 posts
+        //render first datas
         displayPosts();
         updatePosts();
     }catch(error){
@@ -35,17 +35,17 @@ function displayPosts(){
     //creating each post
     sliced.forEach(post =>{
         const div = document.createElement("div");
-        //div containment
+        //structure per post
         div.innerHTML = `
             <h3>${post.title}</h3>
             <p class = "paragraph" style = "display: none;">${post.body}</p>
             <button class = "show-details">Show Details</button>
             <hr>
         `;
-        //importing documents
+        //select inner html
         const paragraph = div.querySelector(".paragraph");
         const btn = div.querySelector(".show-details");
-        // show details button
+        // handle show details button
         btn.addEventListener("click", ()=>{
             paragraph.style.display = "block";
             btn.disabled = true;
@@ -68,4 +68,18 @@ function updatePosts(){
     counter.textContent = `Page ${currPage} of ${lastPage}`;
 }
 
-next.addEventListener()
+next.addEventListener("click",()=>{
+    if (startIndex + pageSize < posts.length){
+        startIndex+= pageSize;
+        displayPosts();
+    }
+});
+prev.addEventListener("click",()=>{
+    if (startIndex - pageSize >= 0){
+        startIndex-= pageSize;
+        displayPosts();
+    }
+});
+
+//display fetch
+fetchPosts();
