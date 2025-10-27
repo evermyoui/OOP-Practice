@@ -1,10 +1,20 @@
 const container = document.querySelector(".container");
+let startIndex = 0;
+const pokemons = [];
+const pageSize = 10;
+
 async function fetchData(){
     try{
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${startIndex}/`);
+        const data = await response.json();
+        pokemons = data;
+
+        displayPokemon();
+
         for (let i = 30; i<= 41; i++){
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`);
         const data = await response.json();
-
+        pokemons = data
         const card = document.createElement("div");
         card.classList.add("card");
 
@@ -31,4 +41,9 @@ async function fetchData(){
         console.error(error);
     }
 }
+function displayPokemon(){
+    
+}
+
+
 fetchData();
