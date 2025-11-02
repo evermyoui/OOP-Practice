@@ -140,6 +140,10 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+.sunset .emoji, .sunrise .emoji {
+    font-size: 2rem;
+}
+
 .sunset-sunrise-container {
     margin-top: 50px;
     display: flex;
@@ -167,9 +171,10 @@ body {
 
 .sunny {
     display: flex;
+    justify-content: center;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    gap: 50px;
 }
 
 .sunny p {
@@ -177,9 +182,23 @@ body {
     font-weight: 700;
 }
 
-.more-details p{
-    margin-bottom: 80px;
+.more-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
+
+.cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px;
+}
+
+.emoji {
+    font-size: 2.5rem;
+}
+
 
 
 @media (max-width: 700px) {
@@ -193,3 +212,7 @@ body {
         justify-items: center;
     }
 } 
+
+.sun {
+    transform: scale(4);
+}
