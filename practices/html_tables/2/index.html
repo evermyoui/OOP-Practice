@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table {
+        border: 1px solid black;
+    }
+    th,td {
+        border: 1px solid black;
+        text-align: center;
+        padding: 10px;
+    }
+</style>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Monday</th>
+                <th scope="col">Tuesday</th>
+                <th scope="col">Wednesday</th>
+                <th scope="col">Thursday</th>
+                <th scope="col">Friday</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <th scope="row">Morning</th>
+                <td colspan="3">Conference</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">Afternoon</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td rowspan="2">Gym</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">Evening</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
