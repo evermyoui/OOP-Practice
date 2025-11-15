@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div class="post">
+            <p>In the 1968 film Planet of the Apes, they find  
+                <span class="spoiler">the ruins 
+                    of the Statue of Liberty. The Plant of the
+                    Apes is Earth!</span>
+            </p>
+        </div>
+        <div class="post">
+            <p>Soylent Green  
+                <span class="spoiler">is made of people!</span>
+            </p>
+        </div>
+        <div class="post">
+            <p>OMG I can't believe that Darth Vadar is 
+                <span class="spoiler">Luke Skywalker's father!</span>
+            </p>
+        </div>
+    </body>
+    <style>
+        :root {
+            --spoiler-color : #000;
+        }
+        p {
+            line-height: 1.5em;
+        }
+        .post {
+            background: gray;
+            padding: 1em;
+            margin-top: 1em;
+            border-radius: 1em;
+        }
+        .spoiler {
+            color: var(--spoiler-color);
+            background-color: var(--spoiler-color);
+            transition: all .8s ease-in-out;
+            cursor: pointer;
+        }
+        .spoiler:hover {
+            color: initial;
+            background-color: initial;
+        }
+    </style>
+</html>
