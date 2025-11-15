@@ -1,0 +1,89 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.card {
+    height: auto;
+    width: 230px;
+    border-radius: 10px;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.7);
+}
+
+.basic {
+    background-color: red;
+}
+.standard {
+    background-color: blue;
+}
+
+.premium {
+    background-color: green;
+}
+
+.card h2 {
+    padding: 20px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.standard h2 {
+    margin-top: 13px;
+}
+
+.pricing-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 170px;
+    background-color: grey;
+    padding: 20px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+
+    margin-left: auto;
+}
+.pricing-container p {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    color: white;
+}
+.pricing-container span {
+    font-weight: bold;
+    font-size: 2rem;
+}
+.description-container {
+    padding: 20px;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+button {
+    padding: 8px 20px;
+    border: none;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.2s ease-in-out;
+}
+
+button:hover {
+    background: #ddd;
+    transform: scale(1.05);
+}
