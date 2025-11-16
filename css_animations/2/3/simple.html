@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="header"></div>
+
+    <div class="grid-container-1">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="first"></div>
+        <div class="second">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="third">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+
+    </div>
+</body>
+<style>
+    :root {
+        --number-columns-col1: 9;
+        --header-footer-height: 50px;
+        --container1-item-height: 10px;
+    }
+
+    * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+    }
+    
+    body {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 15px;
+        gap: 10px;
+        min-height: 100vh;
+    }
+
+    .header {
+        background: orange;
+        height: var(--header-footer-height);
+    }
+
+    .grid-container-1 {
+        display: grid;
+        grid-template-columns: repeat(var(--number-columns-col1), minmax(50px, 1fr));
+        gap: 2px;
+    }
+
+    .grid-container-1 .item {
+        height: var(--container1-item-height);
+    }
+
+    .item {
+        background: black;
+    }
+
+    .main-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        flex: 1;
+    }
+    .first {
+        background: orange;
+    }
+
+    .second {
+        display: grid;
+        grid-template-rows: repeat(auto-fit, minmax(50px, 1fr));
+        gap: 10px;
+    }
+    .second div {
+        height: 100%;
+        background-color: orange;
+    }
+
+    .third {
+        display: grid;
+        height: 100%;
+        gap: 10px;
+    }
+    .footer {
+        background-color: orange;
+        height: var(--header-footer-height);
+    }
+</style>
+</html>
