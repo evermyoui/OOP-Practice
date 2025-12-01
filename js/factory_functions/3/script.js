@@ -23,6 +23,9 @@ class Board {
         const lowestRow = availableCell.length -1;
         this.grid[lowestRow][column].addToken(token);
     }
+    getBoard(){
+        return this.grid;
+    }
 }
 
 class Cell {
@@ -75,19 +78,45 @@ class Game {
         this.player.switchTurn();
         this.printNewRound();
     }
-    checkWin(activePlayer){
-        const row = this.board.rows;
-        const col = this.board.columns;
-        let count = 1;
-        let goingBackward = false;
+}
 
-        for(let i = 0; i< row; i++){
+class Screen {
+    constructor(){
+        this.game = new Game();
+        this.playerTurnDiv = document.querySelector(".turn");
+        this.boardDiv = document.querySelector(".board");
+    }
+    updateScreen(){
+        this.boardDiv.textContent = "";
 
-        }
+        const board = this.game.board.getBoard();
+        const activePlayer = this.game.player.getActivePlayer();
+
+        this.playerTurnDiv.textContent = `It is ${activePlayer.name}'s turn`;
+
+        board.forEach(row =>{
+            row.forEach((cell, index)=> {
+                const cellButton = document.createElement("button");
+                cellButton.classList.add("cell");
+
+                cellButton.dataset.column = index;
+                cellButton.textContent = cell.getValue();
+                this.boardDiv.appendChild(cellButton);
+            })
+        })
+    }
+    call(){
+        this.updateScreen();
+        this.boardDiv.addEventListener("click", (e)=>{
+            const selectedColumn = Number(e.target.dataset.column);
+
+            if (isNaN(selectedColumn)) return;
+
+            this.game.playRound(selectedColumn);
+            this.updateScreen();
+        });
     }
 }
 
-const game = new Game();
-game.playRound(3);
-game.playRound(3);
-game.playRound(3);
+const screen = new Screen();
+screen.call();
