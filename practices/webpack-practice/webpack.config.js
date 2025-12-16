@@ -1,6 +1,5 @@
 const path = require("path");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
-const { watchFile } = require("fs");
 
 module.exports = {
     mode: "development",
@@ -16,7 +15,7 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: "./src/index.html"
+            template: "./src/index.html",
         }),
     ],
     module: {
