@@ -49,7 +49,7 @@ class AllProjects {
         this.projects.push(project);
     }
     deleteProject(projectId){
-        this.projects = this.projects.filter(project => project.id === projectId);
+        this.projects = this.projects.filter(project => project.id !== projectId);
     }
     displayProjects(){
         this.projects.forEach((project)=> {
@@ -81,5 +81,11 @@ class Controller {
     }
     deleteProject(projId){
         this.allProj.deleteProject(projId);
+    }
+}
+
+class Storage {
+    constructor(){
+        this.storageKey = "projects";
     }
 }
